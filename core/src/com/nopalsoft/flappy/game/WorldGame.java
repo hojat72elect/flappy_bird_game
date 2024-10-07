@@ -2,63 +2,48 @@ package com.nopalsoft.flappy.game;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.nopalsoft.flappy.objetos.Bird;
-import com.nopalsoft.flappy.objetos.Counter;
-import com.nopalsoft.flappy.objetos.Pipe;
+import com.nopalsoft.flappy.game_objects.Bird;
+import com.nopalsoft.flappy.game_objects.Counter;
+import com.nopalsoft.flappy.game_objects.Pipe;
 import com.nopalsoft.flappy.screens.Screens;
 
 public class WorldGame {
-    final float WIDTH = Screens.WORLD_WIDTH;
-    final float HEIGHT = Screens.WORLD_HEIGHT;
-
     static final int STATE_RUNNING = 0;
     static final int STATE_GAME_OVER = 1;
-    public int state;
-
+    final float WIDTH = Screens.WORLD_WIDTH;
+    final float HEIGHT = Screens.WORLD_HEIGHT;
     /**
      * Time between pipes, if you increase this number the space between pipes will increase
      */
     final float TIME_TO_SPAWN_PIPE = 1.5f;
-    float timeToSpawnPipe;
-
-    public World oWorldBox;
+    public int state;
+    public World worldGame;
     public int score;
-
+    float timeToSpawnPipe;
     /**
      * Save the information about the bird
      */
-    Bird oBird;
+    Bird bird;
 
     /**
      * Save the information about the pipes
      */
-    Array<Pipe> arrPipes;
+    Array<Pipe> pipes;
 
     /**
      * Save the information about the bodies (box2d). Includes: Birds, pipes & counter object
      */
-    Array<Body> arrBodies;
+    Array<Body> bodies;
 
     public WorldGame() {
-        oWorldBox = new World(new Vector2(0, -13.0f), true);
-        oWorldBox.setContactListener(new Collisions());
+        worldGame = new World(new Vector2(0, -13.0f), true);
+        worldGame.setContactListener(new Collisions());
 
-        arrPipes = new Array<Pipe>();
-        arrBodies = new Array<Body>();
+        pipes = new Array<>();
+        bodies = new Array<>();
 
         timeToSpawnPipe = 1.5f;
 
@@ -71,14 +56,14 @@ public class WorldGame {
     }
 
     private void createBird() {
-        oBird = new Bird(1.35f, 4.75f);
+        bird = new Bird(1.35f, 4.75f);
 
         BodyDef bd = new BodyDef();
-        bd.position.x = oBird.position.x;
-        bd.position.y = oBird.position.y;
+        bd.position.x = bird.position.x;
+        bd.position.y = bird.position.y;
         bd.type = BodyType.DynamicBody;
 
-        Body oBody = oWorldBox.createBody(bd);
+        Body oBody = worldGame.createBody(bd);
 
         CircleShape shape = new CircleShape();
         shape.setRadius(.25f);
@@ -89,7 +74,7 @@ public class WorldGame {
         oBody.createFixture(fixture);
 
         oBody.setFixedRotation(true);
-        oBody.setUserData(oBird);
+        oBody.setUserData(bird);
         oBody.setBullet(true);
 
         shape.dispose();
@@ -100,7 +85,7 @@ public class WorldGame {
         bd.position.x = 0;
         bd.position.y = HEIGHT;
         bd.type = BodyType.StaticBody;
-        Body oBody = oWorldBox.createBody(bd);
+        Body oBody = worldGame.createBody(bd);
 
         EdgeShape shape = new EdgeShape();
         shape.set(0, 0, WIDTH, 0);
@@ -118,7 +103,7 @@ public class WorldGame {
         bd.position.x = 0;
         bd.position.y = 1.1f;
         bd.type = BodyType.StaticBody;
-        Body oBody = oWorldBox.createBody(bd);
+        Body body = worldGame.createBody(bd);
 
         EdgeShape shape = new EdgeShape();
         shape.set(0, 0, WIDTH, 0);
@@ -126,7 +111,7 @@ public class WorldGame {
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
 
-        oBody.createFixture(fixture);
+        body.createFixture(fixture);
         shape.dispose();
     }
 
@@ -156,7 +141,7 @@ public class WorldGame {
         bd.position.x = x;
         bd.position.y = y;
         bd.type = BodyType.KinematicBody;
-        Body oBody = oWorldBox.createBody(bd);
+        Body oBody = worldGame.createBody(bd);
         oBody.setLinearVelocity(Pipe.SPEED_X, 0);
 
         PolygonShape shape = new PolygonShape();
@@ -168,7 +153,7 @@ public class WorldGame {
         oBody.createFixture(fixture);
         oBody.setFixedRotation(true);
         oBody.setUserData(obj);
-        arrPipes.add(obj);
+        pipes.add(obj);
         shape.dispose();
 
     }
@@ -179,7 +164,7 @@ public class WorldGame {
         bd.position.x = x;
         bd.position.y = y;
         bd.type = BodyType.KinematicBody;
-        Body oBody = oWorldBox.createBody(bd);
+        Body oBody = worldGame.createBody(bd);
         oBody.setLinearVelocity(Counter.SPEED_X, 0);
 
         PolygonShape shape = new PolygonShape();
@@ -197,7 +182,7 @@ public class WorldGame {
     }
 
     public void update(float delta, boolean jump) {
-        oWorldBox.step(delta, 8, 4);
+        worldGame.step(delta, 8, 4);
 
         deleteObjects();
 
@@ -208,9 +193,9 @@ public class WorldGame {
             addPipe();
         }
 
-        oWorldBox.getBodies(arrBodies);
+        worldGame.getBodies(bodies);
 
-        for (Body body : arrBodies) {
+        for (Body body : bodies) {
             if (body.getUserData() instanceof Bird) {
                 updateBird(body, delta, jump);
             } else if (body.getUserData() instanceof Pipe) {
@@ -220,22 +205,22 @@ public class WorldGame {
             }
         }
 
-        if (oBird.state == Bird.STATE_DEAD)
+        if (bird.state == Bird.STATE_DEAD)
             state = STATE_GAME_OVER;
     }
 
     private void updateBird(Body body, float delta, boolean jump) {
 
-        oBird.update(delta, body);
+        bird.update(delta, body);
 
-        if (jump && oBird.state == Bird.STATE_NORMAL) {
+        if (jump && bird.state == Bird.STATE_NORMAL) {
             body.setLinearVelocity(0, Bird.JUMP_SPEED);
         }
 
     }
 
     private void updatePipes(Body body) {
-        if (oBird.state == Bird.STATE_NORMAL) {
+        if (bird.state == Bird.STATE_NORMAL) {
             Pipe obj = (Pipe) body.getUserData();
 
             obj.update(body);
@@ -248,7 +233,7 @@ public class WorldGame {
     }
 
     private void updateCounter(Body body) {
-        if (oBird.state == Bird.STATE_NORMAL) {
+        if (bird.state == Bird.STATE_NORMAL) {
             Counter obj = (Counter) body.getUserData();
 
             obj.update(body);
@@ -259,21 +244,21 @@ public class WorldGame {
     }
 
     private void deleteObjects() {
-        oWorldBox.getBodies(arrBodies);
+        worldGame.getBodies(bodies);
 
-        for (Body body : arrBodies) {
-            if (!oWorldBox.isLocked()) {
+        for (Body body : bodies) {
+            if (!worldGame.isLocked()) {
 
                 if (body.getUserData() instanceof Pipe) {
                     Pipe obj = (Pipe) body.getUserData();
                     if (obj.state == Pipe.STATE_REMOVE) {
-                        arrPipes.removeValue(obj, true);
-                        oWorldBox.destroyBody(body);
+                        pipes.removeValue(obj, true);
+                        worldGame.destroyBody(body);
                     }
                 } else if (body.getUserData() instanceof Counter) {
                     Counter obj = (Counter) body.getUserData();
                     if (obj.state == Counter.STATE_REMOVE) {
-                        oWorldBox.destroyBody(body);
+                        worldGame.destroyBody(body);
                     }
                 }
             }
@@ -288,25 +273,25 @@ public class WorldGame {
             Fixture b = contact.getFixtureB();
 
             if (a.getBody().getUserData() instanceof Bird)
-                beginContactBird(a, b);
+                beginContactBird(b);
             else if (b.getBody().getUserData() instanceof Bird)
-                beginContactBird(b, a);
+                beginContactBird(a);
 
         }
 
-        private void beginContactBird(Fixture bird, Fixture otraCosa) {
-            Object somethingElse = otraCosa.getBody().getUserData();
+        private void beginContactBird(Fixture otherFixture) {
+            Object otherObject = otherFixture.getBody().getUserData();
 
-            if (somethingElse instanceof Counter) {
-                Counter obj = (Counter) somethingElse;
+            if (otherObject instanceof Counter) {
+                Counter obj = (Counter) otherObject;
                 if (obj.state == Counter.STATE_NORMAL) {
                     obj.state = Counter.STATE_REMOVE;
                     score++;
 
                 }
             } else {
-                if (oBird.state == Bird.STATE_NORMAL) {
-                    oBird.hurt();
+                if (bird.state == Bird.STATE_NORMAL) {
+                    bird.hurt();
 
                 }
             }

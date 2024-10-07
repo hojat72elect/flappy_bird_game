@@ -21,7 +21,7 @@ public abstract class Screens extends InputAdapter implements Screen {
 
     public MainFlappyBird game;
 
-    public OrthographicCamera oCam;
+    public OrthographicCamera camera;
     public SpriteBatch spriteBatch;
     public Stage stage;
 
@@ -32,8 +32,8 @@ public abstract class Screens extends InputAdapter implements Screen {
         stage = new Stage(new StretchViewport(Screens.SCREEN_WIDTH, Screens.SCREEN_HEIGHT));
 
         // Create the UI Camera and center it on the screen
-        oCam = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
-        oCam.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
+        camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+        camera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
 
         // We need it to tell the InputAdapter and stage when we receive events
         InputMultiplexer input = new InputMultiplexer(this, stage);

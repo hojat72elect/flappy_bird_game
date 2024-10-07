@@ -6,7 +6,7 @@ import com.nopalsoft.flappy.MainFlappyBird
 
 fun main() {
     val config = LwjglApplicationConfiguration()
-    with(config){
+    with(config) {
         title = "Flappy Bird"
         width = 480
         height = 800

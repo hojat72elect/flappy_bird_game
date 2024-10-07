@@ -1,4 +1,4 @@
-package com.nopalsoft.flappy.objetos;
+package com.nopalsoft.flappy.game_objects;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,11 +9,8 @@ public class Counter {
 
     public static int STATE_NORMAL = 0;
     public static int STATE_REMOVE = 1;
-
-    public int state; // Save the current state.
-
     public static float SPEED_X = Pipe.SPEED_X; // It moves at same speed than pipes.
-
+    public int state; // Save the current state.
     public Vector2 position;
 
     public Counter() {

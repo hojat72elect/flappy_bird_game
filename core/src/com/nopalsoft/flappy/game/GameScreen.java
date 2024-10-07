@@ -99,8 +99,8 @@ public class GameScreen extends Screens {
     public void draw(float delta) {
         renderer.render(delta);
 
-        oCam.update();
-        spriteBatch.setProjectionMatrix(oCam.combined);
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
 
 
         spriteBatch.begin();

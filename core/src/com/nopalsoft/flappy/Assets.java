@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class Assets {
 
-    public static BitmapFont font;
     private static final GlyphLayout glyphLayout = new GlyphLayout();
-
+    public static BitmapFont font;
     public static Animation<AtlasRegion> bird;
 
     public static TextureRegion background;

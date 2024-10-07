@@ -1,14 +1,12 @@
 package com.nopalsoft.flappy.game;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.nopalsoft.flappy.Assets;
-import com.nopalsoft.flappy.objetos.Bird;
-import com.nopalsoft.flappy.objetos.Pipe;
+import com.nopalsoft.flappy.game_objects.Bird;
+import com.nopalsoft.flappy.game_objects.Pipe;
 import com.nopalsoft.flappy.screens.Screens;
 
 public class WorldGameRenderer {
@@ -17,24 +15,24 @@ public class WorldGameRenderer {
     final float HEIGHT = Screens.WORLD_HEIGHT;
 
     SpriteBatch spriteBatch;
-    WorldGame oWorld;
-    OrthographicCamera oCam;
+    WorldGame worldGame;
+    OrthographicCamera camera;
 
-    Box2DDebugRenderer renderBox;
+    Box2DDebugRenderer debugRenderBox;
 
-    public WorldGameRenderer(SpriteBatch batcher, WorldGame oWorld) {
+    public WorldGameRenderer(SpriteBatch batcher, WorldGame worldGame) {
 
-        this.oCam = new OrthographicCamera(WIDTH, HEIGHT);
-        this.oCam.position.set(WIDTH / 2f, HEIGHT / 2f, 0);
+        this.camera = new OrthographicCamera(WIDTH, HEIGHT);
+        this.camera.position.set(WIDTH / 2f, HEIGHT / 2f, 0);
         this.spriteBatch = batcher;
-        this.oWorld = oWorld;
-        this.renderBox = new Box2DDebugRenderer();
+        this.worldGame = worldGame;
+        this.debugRenderBox = new Box2DDebugRenderer();
     }
 
     public void render(float delta) {
 
-        oCam.update();
-        spriteBatch.setProjectionMatrix(oCam.combined);
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin();
         spriteBatch.disableBlending();
@@ -45,7 +43,6 @@ public class WorldGameRenderer {
 
         spriteBatch.end();
 
-//        renderBox.render(oWorld.oWorldBox, oCam.combined);
     }
 
     private void drawBackground(float delta) {
@@ -53,7 +50,7 @@ public class WorldGameRenderer {
     }
 
     private void drawPipe(float delta) {
-        for (Pipe obj : oWorld.arrPipes) {
+        for (Pipe obj : worldGame.pipes) {
             if (obj.type == Pipe.TYPE_DOWN)
                 spriteBatch.draw(Assets.downPipe, obj.position.x - .5f,
                         obj.position.y - 2f, 1f, 4);
@@ -64,7 +61,7 @@ public class WorldGameRenderer {
     }
 
     private void drawBird(float delta) {
-        Bird obj = oWorld.oBird;
+        Bird obj = worldGame.bird;
         TextureRegion keyFrame;
 
         if (obj.state == Bird.STATE_NORMAL) {
