@@ -43,19 +43,19 @@ public class GameScreen extends Screens {
 
         switch (state) {
             case STATE_READY:
-                updateReady(delta);
+                updateReady();
                 break;
             case STATE_RUNNING:
                 updateRunning(delta);
                 break;
             case STATE_GAME_OVER:
-                updateGameOver(delta);
+                updateGameOver();
                 break;
         }
 
     }
 
-    private void updateReady(float delta) {
+    private void updateReady() {
         if (Gdx.input.justTouched()) {
             getReady.addAction(Actions.fadeOut(.3f));
             tap.addAction(Actions.sequence(Actions.fadeOut(.3f),
@@ -82,7 +82,7 @@ public class GameScreen extends Screens {
         }
     }
 
-    private void updateGameOver(float delta) {
+    private void updateGameOver() {
         if (Gdx.input.justTouched()) {
             gameOver.addAction(Actions.sequence(Actions.fadeOut(.3f),
                     Actions.run(new Runnable() {
