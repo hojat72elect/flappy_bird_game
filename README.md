@@ -1,12 +1,6 @@
-# Basic Flappy Bird
+# Example Flappy Bird
 
-[Try the game in your Browser](https://yayo-arellano.github.io/libgdx_basic_flappy_bird_tutorial/)
-
-This code is part of the learning libgdx video series I made (In Spanish).
-
-Learn libGDX: [Youtube Playlist](https://youtube.com/playlist?list=PLSTLViM5-REWXAqg2viEI3fBOcMhBzIus)
-
-Create a flappy bird game: [Youtube Playlist](https://youtube.com/playlist?list=PLSTLViM5-REUwPn3bqBmkMllShjm0Ku-H)
+A simple FlappyBird game using libGDX. This is an example of how to use this game engine for a 2D endless runner game.
 
 # Screenshots
 
