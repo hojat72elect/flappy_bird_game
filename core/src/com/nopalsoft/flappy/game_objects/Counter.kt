@@ -4,10 +4,8 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 
 class Counter {
-    @JvmField
-    var state = STATE_NORMAL
 
-    @JvmField
+    var state = STATE_NORMAL
     var position = Vector2()
 
     // Update object position to match with the Box2D body.
@@ -22,7 +20,6 @@ class Counter {
         const val STATE_NORMAL = 0
         const val STATE_REMOVE = 1
 
-        @JvmField
         val SPEED_X = Pipe.SPEED_X // It moves at same speed than pipes.
     }
 }

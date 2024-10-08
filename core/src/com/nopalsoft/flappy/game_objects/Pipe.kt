@@ -3,12 +3,10 @@ package com.nopalsoft.flappy.game_objects
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 
-class Pipe(x: Float, y: Float, @JvmField val type: Int) {
+class Pipe(x: Float, y: Float, val type: Int) {
 
-    @JvmField
+
     var state = STATE_NORMAL
-
-    @JvmField
     val position = Vector2(x, y)
 
     fun update(body: Body) {

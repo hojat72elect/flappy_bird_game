@@ -11,29 +11,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 object Assets {
 
     private val glyphLayout = GlyphLayout()
-
-    @JvmField
     val font = BitmapFont()
-
-    @JvmField
     var bird: Animation<AtlasRegion>? = null
-
-    @JvmField
     var background = TextureRegion()
-
-    @JvmField
     var gameOver = TextureRegion()
-
-    @JvmField
     var getReady = TextureRegion()
-
-    @JvmField
     var tap = TextureRegion()
-
-    @JvmField
     var downPipe = TextureRegion()
-
-    @JvmField
     var upPipe = TextureRegion()
 
     fun load() {
@@ -59,7 +43,6 @@ object Assets {
     }
 
     // Get the text width in order to center it in the screen
-    @JvmStatic
     fun getTextWidth(text: String): Float {
         glyphLayout.setText(font, text)
         return glyphLayout.width

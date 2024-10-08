@@ -5,13 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body
 
 class Bird(x: Float, y: Float) {
 
-    @JvmField
     var state = STATE_NORMAL
-
-    @JvmField
     val position = Vector2(x, y)
-
-    @JvmField
     var stateTime = 0F
 
     // Update object position to match with the Box2D body.

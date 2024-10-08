@@ -11,17 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.StretchViewport
 import com.nopalsoft.flappy.MainFlappyBird
 
-abstract class Screens(@JvmField val game: MainFlappyBird) : InputAdapter(), Screen {
+abstract class Screens(val game: MainFlappyBird) : InputAdapter(), Screen {
 
-    @JvmField
     val camera = OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT)
-
-    @JvmField
     val spriteBatch = SpriteBatch()
-
-    @JvmField
     val stage = Stage(StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT));
-
 
     init {
         // Center the camera on the screen
