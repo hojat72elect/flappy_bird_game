@@ -97,7 +97,7 @@ public class GameScreen extends Screens {
 
     @Override
     public void draw(float delta) {
-        renderer.render(delta);
+        renderer.render();
 
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
